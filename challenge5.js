@@ -1,6 +1,5 @@
 const fs = require('fs');
 
-
 let dirLister = () => {
   fs.readdir(process.argv[2], (err, data) => {
     if (err) {
