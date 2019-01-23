@@ -1,23 +1,24 @@
 const fs = require('fs');
+const util = require('util');
 
 let extFilter = (path, keyExt, callback) => {
   let foundFiles = [];
+  const readdir = util.promisify(fs.readdir);
 
-  fs.readdir(path, (err, buf) => {
-    if (err) {
-      return callback(err);
-    } else {
+  readdir(path)
+    .then(buf => {
       let fileList = buf.toString().split(',');
+
       for (let element of fileList) {
         if (element.split('.')[1] === keyExt) {
           foundFiles.push(element);
         }
       }
-    }
-    return callback(err, foundFiles);
-
-    // return foundFiles;
-  })
+      return callback(null, foundFiles);
+    })
+    .catch(err => {
+      return callback(err);
+    })
 };
 
 
