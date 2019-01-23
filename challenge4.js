@@ -1,14 +1,12 @@
 const fs = require('fs');
-let fileContents = undefined;
+const util = require('util');
+const readFile = util.promisify( fs.readFile );
 
-let lineFinder = () => {fs.readFile(process.argv[2], (err, data) => {
-  if (err) {
-    console.log(err);
-  }
-
-  fileContents = data.toString().split('\n').length - 1;
-  console.log(fileContents);
-})};
-
-lineFinder();
-
+readFile(process.argv[2])
+.then( data => {
+  let fileContentsLength = data.toString().split('\n').length - 1;
+  console.log(fileContentsLength);
+})
+.catch( err => {
+  console.error(err);
+});
