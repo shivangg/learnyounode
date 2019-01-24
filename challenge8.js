@@ -14,11 +14,8 @@ function getData(url) {
   })
 }
 
-getData(process.argv[2])
-  .then( data => {
-    console.log(data.length);
-    console.log(data);
-  })
-  .catch( err => {
-    console.error(err);
-  } )
+(async () => {
+  let data = await getData(process.argv[2]);
+  console.log(data.length);
+  console.log(data);
+})();
